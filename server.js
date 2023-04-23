@@ -8,6 +8,7 @@ const session = require("express-session");
 const adminRouter = require("./Routes/adminRoutes");
 const CONNECT = require("./Configs/connection");
 const userRouter = require("./Routes/userRoutes");
+const postRouter = require("./Routes/postRoutes");
 const app = express();
 
 // USE_
@@ -26,6 +27,7 @@ app.use(passport.session());
 app.use(googleAuthRouter);
 app.use(adminRouter);
 app.use(userRouter);
+app.use(postRouter);
 
 // LOGIC_
 app.get("/", (req, res) => {
