@@ -1,4 +1,4 @@
-const { addNewPost } = require("../Controllers/postControllerr");
+const { addNewPost } = require("../Controllers/postController");
 const postRouter = require("express").Router();
 
 // Add new Posts from 
