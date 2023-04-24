@@ -1,16 +1,19 @@
-import React, { useEffect, useState, useContext } from "react";
-import LeftSidebar from "../Components/DummyLeftSidebar";
-import RightSidebar from "../Components/DummyRightSidebar";
-import Rsidebar from "../Components/Rsidebar";
-import FeedCreate from "../Components/FeedCreate";
+// Import Modules_
+import React, { useEffect, useContext } from "react";
 import { Flex, Box, Text, HStack } from "@chakra-ui/react";
-import f from "../Styles/feed.module.css";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
+// Import Styles_
+import f from "../Styles/feed.module.css";
+
+// Import Components_
+import Rsidebar from "../Components/Rsidebar";
+import FeedCreate from "../Components/FeedCreate";
 import ProfileComp from "../Components/ProfileComp";
 import { getData } from "../Redux/PeopleDetails/action";
 import FeedPost from "../Components/FeedPost";
-import { Link } from "react-router-dom";
 import { FeedContext } from "../Context/FeedContext";
 import { SideBar } from "../Components/SideBar";
 import { getData1 } from "../Redux/PostDetails/action";
@@ -18,48 +21,37 @@ import { getData2 } from "../Redux/userDetails/action";
 import { getData3 } from "../Redux/LoogedOutData/action";
 import { setLogin } from "../Redux/login/action";
 
+// Export Component_
 function Feed() {
+  // STATES MANAGEMENT_
   let dispatch = useDispatch();
+  let peopleData = useSelector((state) => state.PeopleReducer.peopleData);
+  let userPostData = useSelector((state) => state.userPostReducer.userPostData);
+  let loggedUser = useSelector((state) => state.loggedReducer.loggedUser);
+  let LoggedOutData = useSelector(
+    (state) => state.loggedOutDataReducer.loggedOutData
+  );
+  let isAuth = useSelector((state) => {
+    return state.loginReducer.isAuth;
+  });
   let { followstate, setFollowstate, idC, setidC, trueCount, setTrueCount } =
     useContext(FeedContext);
 
+  // Handler Functions_
+  useEffect(() => {}, [followstate]);
   useEffect(() => {
     dispatch(getData(0));
     dispatch(getData1());
     dispatch(getData2());
     dispatch(getData3());
     setTrueCount(7);
-  }, []);
+  }, [dispatch, setTrueCount]);
 
-  let peopleData = useSelector((state) => state.PeopleReducer.peopleData);
-  let userPostData = useSelector((state) => state.userPostReducer.userPostData);
-  let loggedUser = useSelector((state) => state.loggedReducer.loggedUser);
+  // let x = 0;
+  // let encodedImg;
+  // let followData = useSelector((state) => state.PeopleReducer.followData);
 
-  let LoggedOutData = useSelector(
-    (state) => state.loggedOutDataReducer.loggedOutData
-  );
-
-  let isAuth = useSelector((state) => {
-    return state.loginReducer.isAuth;
-  });
-
-  console.log(LoggedOutData, "loggedoutttttttttttttttttttttttUser");
-  console.log(loggedUser, "loggedUser");
-  console.log(userPostData, "userPostData");
-  // console.log(userPostData[0].data.files[0].previewUrl,"prievewinggggg")
-  useEffect(() => {
-    // console.log("222")
-  }, [followstate]);
-
-  // let imageSrc;
-  // if (userPostData.length>=1){
-  //   imageSrc = URL.createObjectURL(userPostData[2].data.files[0].actualFile);
-  //   console.log(imageSrc,"imageSrc");
-  // }
-  let x = 0;
-  let encodedImg;
-  let followData = useSelector((state) => state.PeopleReducer.followData);
-  // console.log(peopleData,"checking after like peopleData");
+  // Return Statement_
   return (
     <Box>
       <Flex w="100%">
