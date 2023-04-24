@@ -1,3 +1,4 @@
+// Import Modules_
 import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
@@ -15,6 +16,12 @@ import {
   ModalBody,
   ModalFooter,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+// Import Components_
 import Rsidebar from "../components/Rsidebar";
 import { LSideBar } from "../components/Lsidebar";
 import back from "../Images/back.svg";
@@ -23,37 +30,29 @@ import upload from "../Images/upload.svg";
 import deleteicon from "../Images/deleteicon.svg";
 import plus from "../Images/plus.svg";
 import whiteplus from "../Images/whiteplus.svg";
-import axios from "axios";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import FeedPost from "../components/FeedPost";
 
+// Export Component_
 const Profile = () => {
+  // STATES MANAGEMENT_
   const [images, setImages] = useState(Array(10).fill(null));
   const [modalIsOpen1, setModalIsOpen1] = useState(false);
   const [modalIsOpen2, setModalIsOpen2] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const hiddenFileInput = useRef(null);
   const [data, setData] = useState([]);
-
+  let navigate = useNavigate();
   let userPostData = useSelector((state) => state.userPostReducer.userPostData);
   let loggedUser = useSelector((state) => state.loggedReducer.loggedUser);
   let img_DP = useSelector((state) => {
     return state.loginReducer.picture;
   });
-
-  let Image1 = data.picture || loggedUser.picture || img_DP;
-  console.log("Profile Image => ", Image1);
-  let navigate = useNavigate();
-  const handleClick = (event) => {
-    hiddenFileInput.current.click();
-  };
   const fullName = useSelector((state) => {
     return state.loginReducer.name;
   });
+  let Image1 = data.picture || loggedUser.picture || img_DP;
 
-  console.log(fullName);
+  // Handler Functions_
   const handleImageUpload = (event) => {
     const selectedImages = Array.from(event.target.files).map((file) =>
       URL.createObjectURL(file)
@@ -82,27 +81,8 @@ const Profile = () => {
       return newImages;
     });
   };
-
-  console.log(images);
-  const handleModalOpen1 = () => {
-    setModalIsOpen1(true);
-  };
-
-  const handleModalClose1 = () => {
-    setModalIsOpen1(false);
-  };
-
-  const handleModalOpen2 = () => {
-    setModalIsOpen2(true);
-  };
-
-  const handleModalClose2 = () => {
-    setModalIsOpen2(false);
-  };
-
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_KEY}/loggedUser`).then((res) => {
-      // console.table(res.data);
       setData(res.data);
     });
     axios
@@ -113,6 +93,8 @@ const Profile = () => {
         console.log(res.data);
       });
   }, [images]);
+
+  // Return Statement_
   return (
     <div>
       <Flex>
@@ -203,7 +185,7 @@ const Profile = () => {
                   color="white"
                   fontSize="40px"
                   _hover={{ backgroundColor: "transparent" }}
-                  onClick={handleModalOpen2}
+                  onClick={() => { setModalIsOpen2(true) }}
                 >
                   <Image src={whiteplus} bg="none" />
                 </Button>
@@ -234,7 +216,7 @@ const Profile = () => {
                   fontSize="16px"
                   fontWeight="500"
                   bg="#4b4b4b"
-                  onClick={handleModalOpen2}
+                  onClick={() => { setModalIsOpen2(true) }}
                 >
                   + Add Photos
                 </Button>
@@ -243,7 +225,7 @@ const Profile = () => {
 
             <Modal
               isOpen={modalIsOpen2}
-              onRequestClose={handleModalClose2}
+              onRequestClose={() => { setModalIsOpen2(false) }}
               isCentered
               size="full"
             >
@@ -252,7 +234,7 @@ const Profile = () => {
                 <ModalHeader mt="15px" textAlign="center">
                   Add Photos
                 </ModalHeader>
-                <ModalCloseButton mt="25px" onClick={handleModalClose2} />
+                <ModalCloseButton mt="25px" onClick={() => { setModalIsOpen2(false) }} />
                 <ModalBody>
                   <Box
                     gap="16px"
@@ -272,7 +254,7 @@ const Profile = () => {
                     <Button
                       w="164px"
                       h="45px"
-                      onClick={handleClick}
+                      onClick={() => { hiddenFileInput.current.click(); }}
                       p="6px 12px"
                       borderRadius="50px"
                       bg="#4b4b4b"
@@ -335,7 +317,7 @@ const Profile = () => {
                       ))}
                   </Box>
                   <Button
-                    onClick={handleModalClose2}
+                    onClick={() => { setModalIsOpen2(false) }}
                     mt="15px"
                     w="164px"
                     h="45px"
@@ -428,7 +410,7 @@ const Profile = () => {
             >
               <Text>Koo Your Opinion!</Text>
               <Text
-                onClick={handleModalOpen1}
+                onClick={() => { setModalIsOpen1(true) }}
                 color="#1e63bd"
                 cursor="pointer"
                 fontSize="14px"
@@ -439,14 +421,14 @@ const Profile = () => {
               </Text>
               <Modal
                 isOpen={modalIsOpen1}
-                onRequestClose={handleModalClose1}
+                onRequestClose={() => { setModalIsOpen1(false) }}
                 isCentered
                 size="sm"
               >
                 <ModalOverlay />
                 <ModalContent rounded="24px">
                   <ModalHeader textAlign="center">More Information</ModalHeader>
-                  <ModalCloseButton mt="10px" onClick={handleModalClose1} />
+                  <ModalCloseButton mt="10px" onClick={() => { setModalIsOpen1(false) }} />
                   <hr />
                   <ModalBody>
                     <Box display="flex" justifyContent="space-between" p="16px">
@@ -605,7 +587,6 @@ const Profile = () => {
         </Box>
 
         <Box w="32%" paddingRight={"6%"}>
-          {/* <RightSidebar />{" "} */}
           <Rsidebar />
         </Box>
       </Flex>
@@ -615,30 +596,4 @@ const Profile = () => {
 
 export { Profile };
 
-// {selectedImage && (
-//     <div>
-//         <Image
-//             alt="not found"
-//             width={"250px"}
-//             src={URL.createObjectURL(selectedImage)}
-//         />
-//         <br />
-//         <Button onClick={() => setSelectedImage(null)}>Remove</Button>
-//     </div>
-// )}
 
-// <br />
-// <br />
-// <Button onClick={handleClick}>
-//     Upload a file
-// </Button>
-// <Input
-//     type="file"
-//     ref={hiddenFileInput}
-//     onChange={(event) => {
-//         setSelectedImage(event.target.files[0]);
-//     }}
-//     bg='rgb(136,136,136)'
-// />
-
-//                     </div> */}

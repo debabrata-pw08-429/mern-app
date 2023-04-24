@@ -1,3 +1,4 @@
+// Import Modules_
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -12,12 +13,18 @@ import {
   Button,
   Spacer,
 } from "@chakra-ui/react";
-import { LSideBar } from "../components/Lsidebar";
 import axios from "axios";
+
+// Import Components_
+import { LSideBar } from "../components/Lsidebar";
 import dot from "../Images/dot.svg";
+
+// Export Component_
 const People = () => {
+  // STATES MANAGEMENT_
   const [data, setData] = useState([]);
 
+  // Handler Functions_
   useEffect(() => {
     axios.get(`${process.env.REACT_APP_API_KEY}/peopleData`).then((res) => {
       setData(res.data);
@@ -25,6 +32,7 @@ const People = () => {
   }, []);
   console.log(data);
 
+  // Return Statement_
   return (
     <Flex>
       <LSideBar />
