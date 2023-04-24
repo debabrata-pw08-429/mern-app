@@ -12,7 +12,7 @@ import {
   Button,
   Spacer,
 } from "@chakra-ui/react";
-import { SideBar } from "../Components/SideBar";
+import { LSideBar } from "../components/Lsidebar";
 import axios from "axios";
 import dot from "../Images/dot.svg";
 const People = () => {
@@ -27,7 +27,7 @@ const People = () => {
 
   return (
     <Flex>
-      <SideBar />
+      <LSideBar />
       <Box w="620px" bg="rgb(248,247,243)" p="20px 24px 0">
         {/* Navbar div */}
         <Flex justifyContent="space-evenly" h="43px" color="rgb(136,136,136)">

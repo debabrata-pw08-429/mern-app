@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Login } from "./Login";
-import { googleLogout } from "@react-oauth/google";
 
 import {
   Box,
@@ -18,18 +17,14 @@ import {
   PopoverContent,
   PopoverTrigger,
   Portal,
-  useColorMode,
   useDisclosure,
-  IconButton,
 } from "@chakra-ui/react";
-import { FaSun } from "react-icons/fa";
 import "../Styles/sidebar.css";
 import koo from "../Images/koo.svg";
 import feedIcon from "../Images/feed.svg";
 import hashtag from "../Images/hashtag.svg";
 import lang from "../Images/lang.svg";
 import search from "../Images/search.svg";
-import acct from "../Images/acct.svg";
 import dropdown from "../Images/dropdown.svg";
 import logout from "../Images/logout.svg";
 import notifications from "../Images/notifications.svg";
@@ -42,7 +37,6 @@ const LSideBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   let navigate = useNavigate();
   let dispatch = useDispatch();
-  const { toggleColorMode } = useColorMode();
   let isAuth = useSelector((state) => {
     return state.loginReducer.isAuth;
   });
@@ -59,7 +53,7 @@ const LSideBar = () => {
     return state.loginReducer.picture;
   });
 
-  useEffect(() => {});
+  useEffect(() => { });
   return (
     //Main div--
     <Box position="sticky" top="0">
@@ -373,4 +367,4 @@ const LSideBar = () => {
   );
 };
 
-export { SideBar };
+export { LSideBar };

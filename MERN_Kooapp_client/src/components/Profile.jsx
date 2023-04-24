@@ -117,7 +117,7 @@ const Profile = () => {
     <div>
       <Flex>
         <Box position="sticky" top="0" w="26%">
-          <SideBar />
+          <LSideBar />
         </Box>
 
         <Box w="42%" bg="rgb(248,247,243)" p="20px 24px 0">
@@ -549,7 +549,7 @@ const Profile = () => {
             </Box>
 
             {/* No Koo found box */}
-            {userPostData.length == 0 && (
+            {userPostData.length === 0 && (
               <Box w="572px" h="176px" pt="51px" textAlign="center">
                 <Text fontSize="17px" fontWeight="500" color="gray">
                   No Koo Found
@@ -565,7 +565,6 @@ const Profile = () => {
                   let img = loggedUser.picture;
                   let category = "";
                   let userFollowState = false;
-                  let id = idx;
                   let postsID = idx;
                   let days = "Just now";
                   let content = {
