@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   Card,
   CardBody,
   Image,
   Stack,
-  Heading,
   Text,
   Button,
   Box,
@@ -13,17 +12,15 @@ import {
 import { SiAdguard } from "react-icons/si";
 import { TiTick } from "react-icons/ti";
 import { FeedContext } from "../Context/FeedContext";
-import { Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { redData, putData } from "../Redux/PeopleDetails/action";
+import { putData } from "../Redux/PeopleDetails/action";
 
 function ProfileComp({ id1, name, category, img, userFollowState }) {
-  let { followstate, setFollowstate, idC, setidC, trueCount, setTrueCount } =
+  let { followstate, setFollowstate, setidC, trueCount, setTrueCount } =
     useContext(FeedContext);
   let peopleData = useSelector((state) => state.PeopleReducer.peopleData);
   let dispatch = useDispatch();
 
-  let [s, ss] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
   let [bt, setBt] = useState("Follow +");
   let [bt1, setBt1] = useState(0);
@@ -44,10 +41,9 @@ function ProfileComp({ id1, name, category, img, userFollowState }) {
               ...e,
               userFollowState: false,
             };
+          } else {
+            return e;
           }
-          //  else {
-          //   return e;
-          // }
         }),
       ];
       setTrueCount(trueCount - 1);
@@ -75,7 +71,7 @@ function ProfileComp({ id1, name, category, img, userFollowState }) {
 
   // },[userFollowState])
 
-  return userFollowState == true ? (
+  return userFollowState === true ? (
     <div>
       <Card alignItems="center" height={"12em"} width={"130px"}>
         <CardBody alignItems="center" justify-Content="Center" p="6px 16px">

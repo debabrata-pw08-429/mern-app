@@ -22,15 +22,15 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 // Import Components_
-import Rsidebar from "../components/Rsidebar";
-import { LSideBar } from "../components/Lsidebar";
+import Rsidebar from "./Rsidebar";
+import { Lsidebar } from "./Lsidebar";
 import back from "../Images/back.svg";
 import dots3 from "../Images/dots3.svg";
 import upload from "../Images/upload.svg";
 import deleteicon from "../Images/deleteicon.svg";
 import plus from "../Images/plus.svg";
 import whiteplus from "../Images/whiteplus.svg";
-import FeedPost from "../components/FeedPost";
+import FeedPost from "./FeedPost";
 
 // Export Component_
 const Profile = () => {
@@ -99,7 +99,7 @@ const Profile = () => {
     <div>
       <Flex>
         <Box position="sticky" top="0" w="26%">
-          <LSideBar />
+          <Lsidebar />
         </Box>
 
         <Box w="42%" bg="rgb(248,247,243)" p="20px 24px 0">

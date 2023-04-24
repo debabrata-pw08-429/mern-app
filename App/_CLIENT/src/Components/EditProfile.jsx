@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-
   Text,
   Image,
   Button,
@@ -9,9 +8,7 @@ import {
   Card,
   CardHeader,
   Stack,
-
   CardBody,
-
   Select,
   ModalOverlay,
   ModalContent,
@@ -25,8 +22,6 @@ import { useSelector } from "react-redux";
 import Webcam from "react-webcam";
 import captureicon from "../Images/captureicon.svg";
 import { useNavigate } from "react-router-dom";
-
-
 
 const videoConstraints = {
   width: 220,
@@ -48,11 +43,12 @@ function Edit() {
   const webcamRef = React.useRef(null);
   let navigate = useNavigate();
 
+  console.log(dob);
+  console.log(gender);
+
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    // console.log(imageSrc)
     setImage(imageSrc);
-    // downloadImage(imageSrc);
   }, [webcamRef]);
 
   useEffect(() => {}, [img]);
@@ -168,7 +164,7 @@ function Edit() {
                 <>
                   <div className="webcam-container">
                     <div className="webcam-img">
-                      {image == "" ? (
+                      {image === "" ? (
                         <Webcam
                           audio={false}
                           height={200}
@@ -178,11 +174,11 @@ function Edit() {
                           videoConstraints={videoConstraints}
                         />
                       ) : (
-                        <img src={image} />
+                        <img src={image} alt="Profile_Image" />
                       )}
                     </div>
                     <div>
-                      {image != "" ? (
+                      {image !== "" ? (
                         <>
                           <Button
                             onClick={(e) => {

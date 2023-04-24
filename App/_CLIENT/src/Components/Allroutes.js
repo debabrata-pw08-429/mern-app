@@ -4,8 +4,8 @@ import Feed from "../Pages/Feed";
 import Create from "../Pages/Create";
 import People from "../Pages/People";
 import Home from "../Pages/Home";
-import { Bio } from "./Bio";
-import Edit from "./Edit";
+import { Profile } from "./Profile";
+import Edit from "./EditProfile";
 import ProfileComp from "./ProfileComp";
 import Admin from "./Admin";
 
@@ -16,7 +16,7 @@ function Allroutes() {
       <Route path="/feed" element={<Feed />}></Route>
       <Route path="/create" element={<Create />}></Route>
       <Route path="/people" element={<People />}></Route>
-      <Route path="/bio" element={<Bio />}></Route>
+      <Route path="/bio" element={<Profile />}></Route>
       <Route path="/edit" element={<Edit />}></Route>
       <Route path="/profile" element={<ProfileComp />}></Route>
       <Route path="/profile/:name" element={<ProfileComp />}></Route>

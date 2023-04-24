@@ -16,8 +16,9 @@ import {
 import axios from "axios";
 
 // Import Components_
-import { LSideBar } from "../components/Lsidebar";
+
 import dot from "../Images/dot.svg";
+import { Lsidebar } from "../Components/Lsidebar";
 
 // Export Component_
 const People = () => {
@@ -35,7 +36,7 @@ const People = () => {
   // Return Statement_
   return (
     <Flex>
-      <LSideBar />
+      <Lsidebar />
       <Box w="620px" bg="rgb(248,247,243)" p="20px 24px 0">
         {/* Navbar div */}
         <Flex justifyContent="space-evenly" h="43px" color="rgb(136,136,136)">

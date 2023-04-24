@@ -33,7 +33,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { log_out, setLogin } from "../Redux/login/action";
 import { Link } from "react-router-dom";
 
-const LSideBar = () => {
+const Lsidebar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   let navigate = useNavigate();
   let dispatch = useDispatch();
@@ -367,4 +367,4 @@ const LSideBar = () => {
   );
 };
 
-export { LSideBar };
+export { Lsidebar };

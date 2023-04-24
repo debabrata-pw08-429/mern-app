@@ -1,6 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
-import LeftSidebar from "../Components/DummyLeftSidebar";
-import RightSidebar from "../Components/DummyRightSidebar";
+import React, { useEffect, useContext } from "react";
 import Rsidebar from "../Components/Rsidebar";
 import FeedCreate from "../Components/FeedCreate";
 import { Flex, Box, Text, HStack } from "@chakra-ui/react";
@@ -12,16 +10,15 @@ import { getData } from "../Redux/PeopleDetails/action";
 import FeedPost from "../Components/FeedPost";
 import { Link } from "react-router-dom";
 import { FeedContext } from "../Context/FeedContext";
-import { SideBar } from "../Components/SideBar";
+
 import { getData1 } from "../Redux/PostDetails/action";
 import { getData2 } from "../Redux/userDetails/action";
 import { getData3 } from "../Redux/LoogedOutData/action";
-import { setLogin } from "../Redux/login/action";
+import { Lsidebar } from "../Components/Lsidebar";
 
 function Feed() {
   let dispatch = useDispatch();
-  let { followstate, setFollowstate, idC, setidC, trueCount, setTrueCount } =
-    useContext(FeedContext);
+  let { followstate, trueCount, setTrueCount } = useContext(FeedContext);
 
   useEffect(() => {
     dispatch(getData(0));
@@ -29,7 +26,7 @@ function Feed() {
     dispatch(getData2());
     dispatch(getData3());
     setTrueCount(7);
-  }, []);
+  }, [dispatch, setTrueCount]);
 
   let peopleData = useSelector((state) => state.PeopleReducer.peopleData);
   let userPostData = useSelector((state) => state.userPostReducer.userPostData);
@@ -43,29 +40,13 @@ function Feed() {
     return state.loginReducer.isAuth;
   });
 
-  console.log(LoggedOutData, "loggedoutttttttttttttttttttttttUser");
-  console.log(loggedUser, "loggedUser");
-  console.log(userPostData, "userPostData");
-  // console.log(userPostData[0].data.files[0].previewUrl,"prievewinggggg")
-  useEffect(() => {
-    // console.log("222")
-  }, [followstate]);
+  useEffect(() => {}, [followstate]);
 
-  // let imageSrc;
-  // if (userPostData.length>=1){
-  //   imageSrc = URL.createObjectURL(userPostData[2].data.files[0].actualFile);
-  //   console.log(imageSrc,"imageSrc");
-  // }
-  let x = 0;
-  let encodedImg;
-  let followData = useSelector((state) => state.PeopleReducer.followData);
-  // console.log(peopleData,"checking after like peopleData");
   return (
     <Box>
       <Flex w="100%">
         <Box w={["0", "0", "26%", "26%"]} paddingLeft={["0", "0", "0", "2%"]}>
-          {/* <LeftSidebar /> */}
-          <SideBar />
+          <Lsidebar />
         </Box>
 
         <Box
@@ -159,7 +140,7 @@ function Feed() {
             </>
           )}
 
-          {isAuth == true &&
+          {isAuth === true &&
             userPostData.map((e, idx) => {
               // let {name,username,category,img,posts,userFollowState,id}=e;
               let name = loggedUser.name;
@@ -167,7 +148,6 @@ function Feed() {
               let img = loggedUser.picture;
               let category = "";
               let userFollowState = false;
-              let id = idx;
               let postsID = idx;
               let days = "Just now";
               let content = {
@@ -204,7 +184,7 @@ function Feed() {
               );
             })}
 
-          {isAuth == true &&
+          {isAuth === true &&
             peopleData.map((e) => {
               let {
                 name,
@@ -255,7 +235,7 @@ function Feed() {
               );
             })}
 
-          {isAuth == false &&
+          {isAuth === false &&
             LoggedOutData.map((e) => {
               let {
                 name,

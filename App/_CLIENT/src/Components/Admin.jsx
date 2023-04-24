@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 
 // Import Styles_
-import "../Styles/App.css";
+import "../App.css";
 
 // Import Components_
 
