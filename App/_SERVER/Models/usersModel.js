@@ -1,5 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
+const { postSchema } = require("./postsModel");
 
 const userSchema = new mongoose.Schema({
   name: { type: String },
@@ -17,7 +18,7 @@ const userSchema = new mongoose.Schema({
   },
   followers: { type: Number, default: 0 },
   following: { type: Number, default: 0 },
-  posts: { type: Array, default: [] },
+  posts: [postSchema],
   profileImgs: { type: [String], default: new Array(10) },
   activityLikes: [],
   activityComments: [],

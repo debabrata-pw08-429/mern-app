@@ -1,12 +1,9 @@
-const postModel = require("../Models/postsModel");
+const { postModel } = require("../Models/postsModel");
 
-
-async function addNewPost(data) {
-  let x = await postModel.create({
-    ...data,
-  });
+async function findPost(id) {
+  let x = await postModel.findById(id);
 
   return x;
 }
 
-module.exports = { addNewPost };
+module.exports = { findPost };
