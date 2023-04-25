@@ -1,8 +1,13 @@
+// Import Modules_
 import { Box, Divider, Text, Link, HStack, Stack } from "@chakra-ui/react";
+
+// Import Components_
 import KooLogo from "../Images/koo.svg";
 import FooterLogo from "../Images/Footer_app.png";
 
+// Export Component_
 function Footer({ links }) {
+  // Return Statement_
   return (
     <>
       <Stack>

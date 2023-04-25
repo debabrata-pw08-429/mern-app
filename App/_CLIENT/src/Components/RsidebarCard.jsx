@@ -1,8 +1,11 @@
+// Import Modules_
 import React from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Avatar, AvatarGroup, Box, Flex, Heading } from "@chakra-ui/react";
 
+// Export Component_
 const RsidebarCard = ({ ele }) => {
+  // Return Statement_
   return (
     <>
       <Box className="card">

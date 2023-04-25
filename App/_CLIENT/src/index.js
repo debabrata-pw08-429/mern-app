@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ChakraProvider>
     <BrowserRouter>
-      <GoogleOAuthProvider clientId="147260584431-dsp5dsqk22jsa3u1lq121ls6iesj6rkc.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID}>
         <Provider store={store}>
           <FeedContextProviderComponent>
             <App />

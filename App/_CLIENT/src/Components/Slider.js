@@ -1,25 +1,17 @@
+// Import Modules_
 import React, { useEffect, useRef } from "react";
-import Styles from "../Styles/stats.css";
+import { Image, Box } from "@chakra-ui/react";
+import $ from "jquery";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import $ from "jquery";
 import "slick-carousel/slick/slick.min.js";
-import { Image, Box } from "@chakra-ui/react";
 
+// Import Styles_
+import Styles from "../Styles/stats.css";
+
+// Export Component_
 function Slider() {
-  const sliderRef = useRef(null);
-
-  let win = window.innerWidth;
-
-  useEffect(() => {
-    $(sliderRef.current).slick({
-      slidesToShow: win <= 412 ? 1 : 3.6,
-      slidesToScroll: 3,
-      autoplay: true,
-      autoplaySpeed: 2000,
-    });
-  }, []);
-
+  // Inline Styles_
   const s1 = {
     borderRadius: "1.5rem",
     height: "100% !important",
@@ -28,6 +20,21 @@ function Slider() {
     color: "transparent",
   };
 
+  // STATES MANAGEMENT_
+  const sliderRef = useRef(null);
+  let win = window.innerWidth;
+
+  // Handler Functions_
+  useEffect(() => {
+    $(sliderRef.current).slick({
+      slidesToShow: win <= 412 ? 1 : 3.6,
+      slidesToScroll: 3,
+      autoplay: true,
+      autoplaySpeed: 2000,
+    });
+  }, [win]);
+
+  // Return Statement_
   return (
     <>
       <Box

@@ -1,21 +1,13 @@
+// Import Modules_
 import React from "react";
-import { useContext } from "react";
-import FeedContext from "../Context/FeedContext";
 import axios from "axios";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useGoogleLogin } from "@react-oauth/google";
-import WatsApp from "./WatsApp";
-import EmailIcon from "./EmailIcon";
 import { AiFillApple } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { FiPhone } from "react-icons/fi";
 import { BiEdit } from "react-icons/bi";
-import { theme } from "../Styles/theme/brandTheme";
-
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setLogin } from "../Redux/login/action";
-
 import {
   useDisclosure,
   Button,
@@ -40,33 +32,38 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 
+// Import Components_
+import WatsApp from "./WatsApp";
+import EmailIcon from "./EmailIcon";
+import { setLogin } from "../Redux/login/action";
+
+// Import Styles_
+import { theme } from "../Styles/theme/brandTheme";
+
+// Export Component_
 const Login = ({ children }) => {
-  // let {
-  //   followstate,
-  //   setFollowstate,
-  //   idC,
-  //   setidC,
-  //   trueCount,
-  //   setTrueCount,
-  //   log,
-  //   setLog,
-  // } = useContext(FeedContext);
+  // Inline Styles_
+  const s1 = {
+    display: "flex",
+    flexDirection: "colomn",
+    justifyContent: "space-around",
+    alignItems: "center",
+  };
 
-  let isAuth = useSelector((state) => {
-    return state.loginReducer.isAuth;
-  });
-
-  console.log(isAuth);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [change, setChange] = React.useState(false);
-  const [otpVerify, setotpVerify] = React.useState(false);
-  const [oathVerify, setoathVerify] = React.useState(isAuth);
-  const initialRef = React.useRef(null);
-
+  // STATES MANAGEMENT_
   let navigate = useNavigate();
   let location = useLocation();
   let dispatch = useDispatch();
+  let isAuth = useSelector((state) => {
+    return state.loginReducer.isAuth;
+  });
+  const [oathVerify, setoathVerify] = React.useState(isAuth);
+  const initialRef = React.useRef(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [change, setChange] = React.useState(false);
+  const [otpVerify, setotpVerify] = React.useState(false);
 
+  // Handler Functions_
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
@@ -79,7 +76,6 @@ const Login = ({ children }) => {
           }
         );
         setoathVerify(true);
-        console.log(user);
         dispatch(setLogin(user.data));
         navigate(location.state === null ? "/feed" : location.state);
       } catch (error) {
@@ -88,13 +84,7 @@ const Login = ({ children }) => {
     },
   });
 
-  const s1 = {
-    display: "flex",
-    flexDirection: "colomn",
-    justifyContent: "space-around",
-    alignItems: "center",
-  };
-
+  // Return Statement_
   return (
     <>
       <Box

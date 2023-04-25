@@ -1,13 +1,20 @@
+// Import Modules_
+import { HStack, Stack, VStack } from "@chakra-ui/react";
+
+// Import Styles_
 import "../Styles/stats.css";
+
+// Import Components_
 import Navbar from "../Components/Navbar";
 import Section1 from "../Components/Section1";
 import Section2 from "../Components/Section2";
 import Section3 from "../Components/Section3";
 import Section4 from "../Components/Section4";
 import Footer from "../Components/Footer";
-import { HStack, Stack, VStack } from "@chakra-ui/react";
 
+// Export Component_
 const Home = () => {
+  // STATES MANAGEMENT_
   const links = {
     quickLinks: [
       { text: "About Us", href: "https://info.kooapp.com/category/about-us/" },
@@ -43,6 +50,7 @@ const Home = () => {
     ],
   };
 
+  // Return Statement_
   return (
     <div>
       <Navbar />

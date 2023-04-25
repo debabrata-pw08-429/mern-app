@@ -53,6 +53,19 @@ const Profile = () => {
   let Image1 = data.picture || loggedUser.picture || img_DP;
 
   // Handler Functions_
+  useEffect(() => {
+    axios.get(`${process.env.REACT_APP_API_KEY}/loggedUser`).then((res) => {
+      setData(res.data);
+    });
+    axios
+      .patch(`${process.env.REACT_APP_API_KEY}/loggedUser`, {
+        profileImg: JSON.stringify(images),
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+  }, [images]);
+
   const handleImageUpload = (event) => {
     const selectedImages = Array.from(event.target.files).map((file) =>
       URL.createObjectURL(file)
@@ -81,18 +94,6 @@ const Profile = () => {
       return newImages;
     });
   };
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_KEY}/loggedUser`).then((res) => {
-      setData(res.data);
-    });
-    axios
-      .patch(`${process.env.REACT_APP_API_KEY}/loggedUser`, {
-        profileImg: JSON.stringify(images),
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
-  }, [images]);
 
   // Return Statement_
   return (
@@ -565,7 +566,6 @@ const Profile = () => {
             <Box p={"0px"}>
               {userPostData.length >= 1 &&
                 userPostData.map((e, idx) => {
-                  // let {name,username,category,img,posts,userFollowState,id}=e;
                   let name = loggedUser.name;
                   let username = loggedUser.given_name;
                   let img = loggedUser.picture;
@@ -584,7 +584,7 @@ const Profile = () => {
                   let userLike = e.data.userLike;
                   let Image1 = loggedUser.picture;
                   let user = true;
-                  console.log(e.data.description, "description checkkkkkk");
+
                   return (
                     <FeedPost
                       user={user}

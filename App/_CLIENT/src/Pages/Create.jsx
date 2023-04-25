@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
-import style from "../Styles/create.module.css";
+// Import Modules_
+import React, { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import { BsSend, BsPlusCircle, BsBarChart } from "react-icons/bs";
-import { AiOutlineHistory, AiOutlinePlusCircle } from "react-icons/ai";
+import { AiOutlineHistory } from "react-icons/ai";
 import { HiOutlineInboxArrowDown, HiOutlineLink } from "react-icons/hi2";
 import { ImImages } from "react-icons/im";
 import { RxVideo } from "react-icons/rx";
@@ -16,8 +18,6 @@ import {
   Spacer,
   CircularProgress,
   CircularProgressLabel,
-} from "@chakra-ui/react";
-import {
   Modal,
   ModalOverlay,
   ModalContent,
@@ -27,48 +27,56 @@ import {
   Progress,
   ModalFooter,
 } from "@chakra-ui/react";
-import { useSelector, useDispatch } from "react-redux";
+
+// Import Components_
 import { postData } from "../Redux/PostDetails/action";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { getData2 } from "../Redux/userDetails/action";
 
+// Import Styles_
+import style from "../Styles/create.module.css";
+
+// Export Component_
 function Create() {
-  useEffect(() => {
-    dispatch(getData2());
-  }, []);
-  let loggedUser = useSelector((state) => state.loggedReducer.loggedUser);
-  console.log(loggedUser, "loggedUserrr");
-
-  let img_DP = useSelector((state) => {
-    return state.loginReducer.picture;
-  });
-
-  let Image = img_DP || loggedUser;
-  // let Image='https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/61nlaq18GGL._SY679_.jpg';
+  // STATES MANAGEMENT_
   const dispatch = useDispatch();
   const [count, setCount] = useState(0);
   const [description, setDescription] = useState(0);
-  const [myJSON, setmyJSON] = useState();
+  const [myJSON] = useState();
   const [file, setFile] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
   const fileInputRef = useRef(null);
   const fileInputRef1 = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [progressCount, setProgressCount] = useState(0);
-  const [previewFiles, setPreviewFiles] = useState([]);
+
+  let loggedUser = useSelector((state) => state.loggedReducer.loggedUser);
+  let img_DP = useSelector((state) => state.loginReducer.picture);
+  let Image = img_DP || loggedUser;
+
+  // Handler Functions_
+  useEffect(() => {
+    if (isOpen) {
+      const interval = setInterval(() => {
+        setProgressCount((prevProgressCount) => prevProgressCount + 25);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    dispatch(getData2());
+  }, [dispatch]);
 
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
     setDescription(event.target.value);
     setCount(inputValue.length);
   };
+
   const handleFileChange = (event) => {
-    // console.log(file,"fileeeeeee");
     const selectedFiles = event.target.files;
     const filesArray = Array.from(selectedFiles);
-    console.log(filesArray, "filesssssAARRRRay");
     const filesWithPreview = filesArray.map((file) => ({
       fileData: file,
       previewUrl: URL.createObjectURL(file),
@@ -76,33 +84,10 @@ function Create() {
       type: file.type,
       date: file.lastModifiedDate,
     }));
-    const filesEncode = filesArray.map((file) =>
-      encodeFileAsBase64(file).then((encoded) => {
-        // Store the encoded file data in your JSON
-        setmyJSON({
-          fileData: encoded,
-        });
-        const x = {
-          fileData: encoded,
-        };
-        // axios.post('${process.env.REACT_APP_API_KEY}/images',x)
-        //   .then(response => console.log(response))
-        //     .catch(error => console.log(error));
-      })
-    );
-    console.log(filesWithPreview, "ffilesWithPreview");
+
     setFile([...file, ...filesWithPreview]);
-    // const filed = event.target.files[0];
-    // setSelectedFile(filed);
   };
-  function encodeFileAsBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-    });
-  }
+
   const handleClose = (index) => {
     const newFiles = [...file];
     newFiles.splice(index, 1);
@@ -111,144 +96,21 @@ function Create() {
 
   const handleButtonClick = (i) => {
     i === 0 ? fileInputRef.current.click() : fileInputRef1.current.click();
-    console.log("Button clickededddd");
   };
 
   const handlePost = () => {
-    console.log(myJSON, "fileeeeeee22222222");
     let data = {
       description,
       files: [...file],
       likes: 0,
       comments: [],
-      myJSON: myJSON.fileData,
+      myJSON: myJSON,
       userLike: false,
     };
-    console.log(data, "dataaaa");
-    console.log("av");
-    // const reader = new FileReader();
-    // reader.readAsDataURL(selectedFile);
-    // reader.onloadend = () => {
-    //   const imageData = reader.result.replace(/^data:image\/\w+;base64,/, '');
-    //   uploadImage(imageData)
-    //     .then(response => {
-    //       console.log('Image uploaded successfully:', response.data);
-    //     })
-    //     .catch(error => {
-    //       console.error('Error uploading image:', error);
-    //     });
-    // };
+
     dispatch(postData(data));
     setIsOpen(true);
   };
-  // const onImageUpload = async (imageFile) => {
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append('file', imageFile);
-  //     const response = await axios.post('http://localhost:3000/images', formData, {
-  //       headers: {
-  //         'Content-Type': 'multipart/form-data'
-  //       }
-  //     });
-  //     return response.data.url;
-  //   } catch (error) {
-  //     console.error(error);
-  //     return null;
-  //   }
-  // };
-  // function uploadImage(imageData) {
-  //   const apiUrl = 'http://localhost:3000/images';
-  //   console.log("inuplaod");
-  //   return axios.post(apiUrl, {
-  //     data: imageData,
-  //     contentType: 'image/jpeg' // replace with the appropriate content type for your image
-  //   });
-  // }
-
-  // const handlePost = ()=>{
-  //  let data={
-  //   description,
-  //   files: file.map((fileData, index) => ({
-  //     name: fileData.fileData.name,
-  //     type: fileData.type,
-  //     size: fileData.fileData.size,
-  //     previewUrl: previewFiles[index].previewUrl,
-  //     date: fileData.date,
-  //   })),
-  //   likes: 0,
-  //   comments: [],
-  //   };
-
-  // dispatch(postData(data));
-  // setIsOpen(true);
-  // }
-
-  // const handleFileChange = async (e) => {
-  //   const files = e.target.files;
-  // const fileArray = Array.from(files);
-  //   console.log("INNNN File change")
-  //    const reviewFiles = await Promise.all(
-  //     fileArray.map(async (fileData) => {
-  //       const previewBlob = await createPreviewBlob(fileData.fileData); // replace with your function to create the preview blob
-  //       const previewFileName = `preview_${Date.now()}`;
-  //       const previewFileUrl = `/previews/${previewFileName}`;
-  //       await uploadFileToServer(previewBlob, previewFileName); // replace with your function to upload the file to the server
-  //       return { previewUrl: previewFileUrl, type: fileData.type, date: fileData.date };
-  //     })
-
-  //   );
-  //   setPreviewFiles(reviewFiles);
-  //   // handlePost();
-  // }
-
-  //   const handlePost = {
-  //     description,
-  //     files: file.map((fileData, index) => ({
-  //       name: fileData.fileData.name,
-  //       type: fileData.type,
-  //       size: fileData.fileData.size,
-  //       previewUrl: previewFiles[index].previewUrl,
-  //       date: fileData.date,
-  //     })),
-  //     likes: 0,
-  //     comments: [],
-  //   };
-
-  //   dispatch(postData(handlePost));
-  //   setIsOpen(true);
-  // };
-
-  // const createPreviewBlob = (file) => {
-  //   console.log("in Blob");
-  //   return new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     reader.onload = () => {
-  //       const img = new Image();
-  //       img.src = reader.result;
-  //       img.onload = () => {
-  //         const canvas = document.createElement("canvas");
-  //         canvas.width = 400; // set the width and height of the preview canvas
-  //         canvas.height = 120;
-  //         const ctx = canvas.getContext("2d");
-  //         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-  //         canvas.toBlob((blob) => {
-  //           resolve(blob);
-  //         }, file.type);
-  //       };
-  //     };
-  //     reader.onerror = reject;
-  //   });
-  // };
-  // const uploadFileToServer = (fileBlob, fileName) => {
-  //   const formData = new FormData();
-  //   formData.append("file", fileBlob, fileName);
-
-  //   return fetch("http://localhost:3000/userposts", {
-  //     method: "POST",
-  //     body: formData,
-  //   });
-  // };
 
   const handleCloseModal = () => {
     if (progressCount < 100) {
@@ -263,16 +125,7 @@ function Create() {
     navigate("/feed");
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      const interval = setInterval(() => {
-        setProgressCount((prevProgressCount) => prevProgressCount + 25);
-      }, 1000);
-
-      return () => clearInterval(interval);
-    }
-  }, [isOpen]);
-
+  // Return Statement_
   return (
     <div className={style.main}>
       <div className={style.d1}>
@@ -299,7 +152,7 @@ function Create() {
                   onClick={handlePost}
                   colorScheme="white"
                   disabled={progressCount < 100}
-                  bg={count > 500 || count == 0 ? "#b3b2b0" : "#4b4b4b"}
+                  bg={count > 500 || count === 0 ? "#b3b2b0" : "#4b4b4b"}
                   height="fit-content"
                   size="md"
                   spacing="10px"
@@ -341,7 +194,7 @@ function Create() {
           >
             {file.map((filee, index) => (
               <div key={index} style={{ position: "relative" }}>
-                {/* <img key={index} src={URL.createObjectURL(filee)} alt="preview"  /> */}
+                <img key={index} src={URL.createObjectURL(filee)} alt="preview"  />
                 {filee.fileData.type.startsWith("image/") ? (
                   <img src={filee.previewUrl} alt="preview" />
                 ) : (

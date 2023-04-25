@@ -1,4 +1,8 @@
+// Import Modules_
 import React, { useState, useContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { SiAdguard } from "react-icons/si";
+import { TiTick } from "react-icons/ti";
 import {
   Card,
   CardBody,
@@ -9,21 +13,23 @@ import {
   Box,
   Spinner,
 } from "@chakra-ui/react";
-import { SiAdguard } from "react-icons/si";
-import { TiTick } from "react-icons/ti";
+
+// Import Components_
 import { FeedContext } from "../Context/FeedContext";
-import { useSelector, useDispatch } from "react-redux";
 import { putData } from "../Redux/PeopleDetails/action";
 
+// Export Component_
 function ProfileComp({ id1, name, category, img, userFollowState }) {
+  // STATES MANAGEMENT_
   let { followstate, setFollowstate, setidC, trueCount, setTrueCount } =
     useContext(FeedContext);
   let peopleData = useSelector((state) => state.PeopleReducer.peopleData);
-  let dispatch = useDispatch();
-
   const [showSpinner, setShowSpinner] = useState(false);
   let [bt, setBt] = useState("Follow +");
   let [bt1, setBt1] = useState(0);
+  let dispatch = useDispatch();
+
+  // Handler Functions_
   const changeFollow = () => {
     setBt();
     setShowSpinner(true);
@@ -31,7 +37,6 @@ function ProfileComp({ id1, name, category, img, userFollowState }) {
       setShowSpinner(false);
       setBt1(1);
       setidC(id1);
-      console.log(id1);
       let q = -1;
       let x = [
         ...peopleData.map((e, idx) => {
@@ -47,30 +52,13 @@ function ProfileComp({ id1, name, category, img, userFollowState }) {
         }),
       ];
       setTrueCount(trueCount - 1);
-
-      console.log(x, "xxxxxx");
-      // dispatch(redData(x));
-
-      console.log(x);
-      console.log(q, "qqqq");
-      console.log(x[q], "changedddd");
       let send = x[q];
-      console.log(send, "sendddd data at profileComp");
       dispatch(putData(send, id1));
-
       setFollowstate(followstate);
-      console.log(userFollowState, "userstateofFollow");
-      console.log(name);
-      console.log(peopleData);
-      // }, 3000);
     }, 2000);
   };
 
-  // useEffect(()=>{
-  //   console.log("changing");
-
-  // },[userFollowState])
-
+  // Return Statement_
   return userFollowState === true ? (
     <div>
       <Card alignItems="center" height={"12em"} width={"130px"}>

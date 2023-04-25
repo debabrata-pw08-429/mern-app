@@ -1,9 +1,13 @@
+// Import Modules_
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
+// Export Component_
 const UserComponent = ({ ele }) => {
+  // STATES MANAGEMENT_
   let navigate = useNavigate();
 
+  // Return Statement_
   return (
     <Flex
       p="0.5em"

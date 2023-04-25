@@ -1,7 +1,9 @@
-import React from "react";
+// Import Styles_
 import "../Styles/stats.css";
 
+// Export Component_
 const Section3 = () => {
+  // Return Statement_
   return (
     <>
       <div className="Home_numberSection__tf0Ni">

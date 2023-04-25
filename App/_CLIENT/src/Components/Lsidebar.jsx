@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
-import { Login } from "./Login";
-
+// Import Modules_
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   Box,
   Button,
@@ -19,7 +21,9 @@ import {
   Portal,
   useDisclosure,
 } from "@chakra-ui/react";
-import "../Styles/sidebar.css";
+
+// Import Components_
+import { Login } from "./Login";
 import koo from "../Images/koo.svg";
 import feedIcon from "../Images/feed.svg";
 import hashtag from "../Images/hashtag.svg";
@@ -28,12 +32,14 @@ import search from "../Images/search.svg";
 import dropdown from "../Images/dropdown.svg";
 import logout from "../Images/logout.svg";
 import notifications from "../Images/notifications.svg";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { log_out, setLogin } from "../Redux/login/action";
-import { Link } from "react-router-dom";
 
+// Import Styles_
+import "../Styles/sidebar.css";
+
+// Export Component_
 const Lsidebar = () => {
+  // STATES MANAGEMENT_
   const { isOpen, onOpen, onClose } = useDisclosure();
   let navigate = useNavigate();
   let dispatch = useDispatch();
@@ -53,7 +59,7 @@ const Lsidebar = () => {
     return state.loginReducer.picture;
   });
 
-  useEffect(() => {});
+  // Return Statement_
   return (
     //Main div--
     <Box position="sticky" top="0">

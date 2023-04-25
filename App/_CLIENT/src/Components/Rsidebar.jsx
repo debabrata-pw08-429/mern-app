@@ -1,8 +1,7 @@
-import { SearchIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-import React, { useState, useEffect } from "react";
-import UserComponent from "./SearchCard";
+// Import Modules_
 import axios from "axios";
-
+import React, { useState, useEffect } from "react";
+import { SearchIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -20,14 +19,26 @@ import {
   PopoverArrow,
   PopoverCloseButton,
 } from "@chakra-ui/react";
+
+// Import Components_
+import UserComponent from "./SearchCard";
 import RsidebarCard from "./RsidebarCard";
 
+// Export Component_
 const Rsidebar = () => {
+  // STATES MANAGEMENT_
   const initialFocusRef = React.useRef();
   let [searchQuery, setSearchQuery] = useState("");
   let [dataJSON, setData] = useState([]);
   let [queryData, setqueryData] = useState([]);
+  const hashData = [
+    { hastag: "#amritpalsingh" },
+    { hastag: "#manishkashyap" },
+    { hastag: "#g20india" },
+    { hastag: "#indvsaus" },
+  ];
 
+  // Handler Functions_
   useEffect(() => {
     const json_URL = `${process.env.REACT_APP_API_KEY}/peopleData`;
 
@@ -40,25 +51,21 @@ const Rsidebar = () => {
     getInitialState();
   }, []);
 
-  const hashData = [
-    { hastag: "#amritpalsingh" },
-    { hastag: "#manishkashyap" },
-    { hastag: "#g20india" },
-    { hastag: "#indvsaus" },
-  ];
-
   const filterSearch = () => {
     let filtered = dataJSON.filter((val) => {
-      if (searchQuery == "") {
+      if (searchQuery === "") {
         return val;
       } else if (val.name.toLowerCase().includes(searchQuery.toLowerCase())) {
         return val;
       }
+
+      return "";
     });
 
     setqueryData(filtered);
   };
 
+  // Return Statement_
   return (
     <Flex
       direction={"column"}

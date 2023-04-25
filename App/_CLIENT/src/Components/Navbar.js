@@ -1,16 +1,7 @@
+// Import Modules_
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { theme } from "../Styles/theme/brandTheme";
-import styles from "../Styles/home.module.css";
-import homeIcon from "../Images/homeIcon.svg";
-import exploreIcon from "../Images/exploreIcon.svg";
-import trendingIcon from "../Images/trendingIcon.svg";
-import searchIcon from "../Images/searchIcon.svg";
-import scanIcon from "../Images/scanIcon.svg";
-import earthIcon from "../Images/earthIcon.svg";
-import koo from "../Images/koo.svg";
-import { Login } from "./Login";
-
 import {
   Flex,
   Center,
@@ -23,13 +14,29 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-import { useSelector } from "react-redux";
+// Import Styles_
+import { theme } from "../Styles/theme/brandTheme";
+import styles from "../Styles/home.module.css";
 
+// Import Components_
+import homeIcon from "../Images/homeIcon.svg";
+import exploreIcon from "../Images/exploreIcon.svg";
+import trendingIcon from "../Images/trendingIcon.svg";
+import searchIcon from "../Images/searchIcon.svg";
+import scanIcon from "../Images/scanIcon.svg";
+import earthIcon from "../Images/earthIcon.svg";
+import koo from "../Images/koo.svg";
+import { Login } from "./Login";
+
+// Export Component_
 const Navbar = () => {
+  // STATES MANAGEMENT_
   let isAuth = useSelector((state) => {
     return state.loginReducer.isAuth;
   });
+  console.log(isAuth);
 
+  // Return Statement_
   return (
     <div>
       <Flex

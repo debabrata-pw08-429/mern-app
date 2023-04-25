@@ -1,4 +1,8 @@
+// Import Modules_
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Webcam from "react-webcam";
 import {
   Box,
   Text,
@@ -18,17 +22,18 @@ import {
   ModalBody,
   ModalFooter,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import Webcam from "react-webcam";
-import captureicon from "../Images/captureicon.svg";
-import { useNavigate } from "react-router-dom";
 
+// Import Components_
+import captureicon from "../Images/captureicon.svg";
 const videoConstraints = {
   width: 220,
   height: 200,
   facingMode: "user",
 };
+
+// Export Component_
 function Edit() {
+  // STATES MANAGEMENT_
   const [modalIsOpen1, setModalIsOpen1] = useState(false);
   const [modalIsOpen2, setModalIsOpen2] = useState(false);
   const [modalIsOpen3, setModalIsOpen3] = useState(false);
@@ -38,23 +43,12 @@ function Edit() {
   const [mob, setMob] = useState("");
   const [name, setName] = useState("");
   const [mail, setMail] = useState("");
-  const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("");
+  const [setDob] = useState("");
+  const [setGender] = useState("");
   const webcamRef = React.useRef(null);
   let navigate = useNavigate();
 
-  console.log(dob);
-  console.log(gender);
-
-  const capture = React.useCallback(() => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setImage(imageSrc);
-  }, [webcamRef]);
-
-  useEffect(() => {}, [img]);
-
   let img_DP = useSelector((state) => {
-    console.log(state.loginReducer);
     return state.loginReducer.picture;
   });
 
@@ -65,6 +59,13 @@ function Edit() {
   let email = useSelector((state) => {
     return state.loginReducer.email;
   });
+
+  // Handler Functions_
+  useEffect(() => {}, [img]);
+  const capture = React.useCallback(() => {
+    const imageSrc = webcamRef.current.getScreenshot();
+    setImage(imageSrc);
+  }, [webcamRef]);
 
   const handleModalOpen1 = () => {
     setModalIsOpen1(true);
@@ -96,6 +97,8 @@ function Edit() {
   const handleModalClose4 = () => {
     setModalIsOpen4(false);
   };
+
+  // Return Statement_
   return (
     <Box bg="#f8f7f3" h="960px">
       <Box w="572px" margin="auto">

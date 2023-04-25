@@ -1,26 +1,27 @@
+// Import Modules_
 import React from "react";
+import { Link } from "react-router-dom";
+import { AiFillPlusCircle } from "react-icons/ai";
+import { useSelector } from "react-redux";
 import {
-  Text,
   Avatar,
   Stack,
   InputGroup,
   InputLeftElement,
   Input,
   InputRightElement,
-  Flex,
-  Box,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import { AiFillPlusCircle } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import acc_Img from "../Images/acct.svg";
+
+// Export Component_
 function FeedCreate() {
-  // let { Image } = useSelector((state) => state.LoggedReducer);
+  // STATES MANAGEMENT_
   let img_DP = useSelector((state) => {
     return state.loginReducer.picture;
   });
-  let loggedUser = useSelector((state) => state.loggedReducer.loggedUser);
+
   let Image = img_DP;
+
+  // Return Statement_
   return (
     <div style={{ pointer: "cursor" }}>
       <Link to="/create">

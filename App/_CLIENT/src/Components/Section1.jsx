@@ -1,13 +1,22 @@
+// Import Modules_
 import React from "react";
-import { theme } from "../Styles/theme/brandTheme";
-import { Box, Grid, GridItem, Spacer } from "@chakra-ui/react";
-import { Button, Image, Link, Text } from "@chakra-ui/react";
+import { Box, Grid, GridItem } from "@chakra-ui/react";
+import { Button, Image, Text } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-import app_ss from "../Images/app_ss.png";
 import { useNavigate } from "react-router-dom";
 
+// Import Styles_
+import { theme } from "../Styles/theme/brandTheme";
+
+// Import Components_
+import app_ss from "../Images/app_ss.png";
+
+// Export Component_
 const Section1 = () => {
+  // STATES MANAGEMENT_
   let navigate = useNavigate();
+
+  // Handler Functions_
   return (
     <Grid
       templateAreas={[

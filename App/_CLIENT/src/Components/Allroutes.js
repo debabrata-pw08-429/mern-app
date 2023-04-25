@@ -1,5 +1,8 @@
+// Import Modules_
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+
+// Import Components_
 import Feed from "../Pages/Feed";
 import Create from "../Pages/Create";
 import People from "../Pages/People";
@@ -9,6 +12,7 @@ import Edit from "./EditProfile";
 import ProfileComp from "./ProfileComp";
 import Admin from "./Admin";
 
+// Export Component_
 function Allroutes() {
   return (
     <Routes>

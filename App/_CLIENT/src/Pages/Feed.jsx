@@ -1,33 +1,29 @@
+// Import Modules_
 import React, { useEffect, useContext } from "react";
-import Rsidebar from "../Components/Rsidebar";
-import FeedCreate from "../Components/FeedCreate";
-import { Flex, Box, Text, HStack } from "@chakra-ui/react";
-import f from "../Styles/feed.module.css";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
-import ProfileComp from "../Components/ProfileComp";
-import { getData } from "../Redux/PeopleDetails/action";
-import FeedPost from "../Components/FeedPost";
+import { Flex, Box, Text, HStack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { FeedContext } from "../Context/FeedContext";
 
+// Import Components_
+import ProfileComp from "../Components/ProfileComp";
+import FeedPost from "../Components/FeedPost";
+import Rsidebar from "../Components/Rsidebar";
+import FeedCreate from "../Components/FeedCreate";
+import { getData } from "../Redux/PeopleDetails/action";
 import { getData1 } from "../Redux/PostDetails/action";
 import { getData2 } from "../Redux/userDetails/action";
 import { getData3 } from "../Redux/LoogedOutData/action";
 import { Lsidebar } from "../Components/Lsidebar";
+import { FeedContext } from "../Context/FeedContext";
 
+// Import Styles_
+import f from "../Styles/feed.module.css";
+
+// Export Component_
 function Feed() {
-  let dispatch = useDispatch();
+  // STATES MANAGEMENT_
   let { followstate, trueCount, setTrueCount } = useContext(FeedContext);
-
-  useEffect(() => {
-    dispatch(getData(0));
-    dispatch(getData1());
-    dispatch(getData2());
-    dispatch(getData3());
-    setTrueCount(7);
-  }, [dispatch, setTrueCount]);
-
   let peopleData = useSelector((state) => state.PeopleReducer.peopleData);
   let userPostData = useSelector((state) => state.userPostReducer.userPostData);
   let loggedUser = useSelector((state) => state.loggedReducer.loggedUser);
@@ -40,8 +36,20 @@ function Feed() {
     return state.loginReducer.isAuth;
   });
 
+  let dispatch = useDispatch();
+
+  // Handler Functions_
+  useEffect(() => {
+    dispatch(getData(0));
+    dispatch(getData1());
+    dispatch(getData2());
+    dispatch(getData3());
+    setTrueCount(7);
+  }, [dispatch, setTrueCount]);
+
   useEffect(() => {}, [followstate]);
 
+  // Return Statement_
   return (
     <Box>
       <Flex w="100%">
@@ -142,7 +150,6 @@ function Feed() {
 
           {isAuth === true &&
             userPostData.map((e, idx) => {
-              // let {name,username,category,img,posts,userFollowState,id}=e;
               let name = loggedUser.name;
               let username = loggedUser.given_name;
               let img = loggedUser.picture;
@@ -161,7 +168,7 @@ function Feed() {
               let userLike = e.data.userLike;
               let Image1 = loggedUser.picture;
               let user = true;
-              console.log(e.data.description, "description checkkkkkk");
+
               return (
                 <FeedPost
                   user={user}
@@ -292,7 +299,6 @@ function Feed() {
           paddingRight={"6%"}
           display={["none", "none", "none", "block"]}
         >
-          {/* <RightSidebar />{" "} */}
           <Rsidebar />
         </Box>
       </Flex>

@@ -1,7 +1,12 @@
+// Import Modules_
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
+
+// Import Components_
 import QR_SS from "../Images/QR_SS.png";
 
+// Export Component_
 const Section4 = () => {
+  // Return Statement_
   return (
     <>
       <Flex direction="column">

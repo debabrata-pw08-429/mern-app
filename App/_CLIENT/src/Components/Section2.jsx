@@ -1,9 +1,16 @@
+// Import Modules_
 import React from "react";
-import Styles from "../Styles/stats.css";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+
+// Import Components_
 import Slider from "./Slider";
 
+// Import Styles_
+import Styles from "../Styles/stats.css";
+
+// Export Component_
 const Section2 = () => {
+  // Return Statement_
   return (
     <Box className={Styles.Home_carouselContainer__K44P8}>
       <Flex

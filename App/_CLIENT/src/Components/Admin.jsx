@@ -5,10 +5,9 @@ import { FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
 // Import Styles_
 import "../App.css";
 
-// Import Components_
-
 // Export Component_
 const Admin = () => {
+  // STATES MANAGEMENT_
   const [inputEmail, setInputEmail] = useState("");
   const [inputPassword, setInputPassword] = useState("");
 
