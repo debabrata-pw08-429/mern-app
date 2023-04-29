@@ -76,16 +76,16 @@ function Create() {
 
   const handleFileChange = (event) => {
     const selectedFiles = event.target.files;
-    const filesArray = Array.from(selectedFiles);
-    const filesWithPreview = filesArray.map((file) => ({
-      fileData: file,
-      previewUrl: URL.createObjectURL(file),
-      actualFile: file,
-      type: file.type,
-      date: file.lastModifiedDate,
-    }));
-
-    setFile([...file, ...filesWithPreview]);
+    console.log(selectedFiles)
+    // const filesArray = Array.from(selectedFiles);
+    // const filesWithPreview = filesArray.map((file) => ({
+    //   fileData: file,
+    //   previewUrl: URL.createObjectURL(file),
+    //   actualFile: file,
+    //   type: file.type,
+    //   date: file.lastModifiedDate,
+    // }));
+    // setFile([...file, ...filesWithPreview]);
   };
 
   const handleClose = (index) => {
@@ -98,6 +98,10 @@ function Create() {
     i === 0 ? fileInputRef.current.click() : fileInputRef1.current.click();
   };
 
+  const submitFormToBackend = () => {
+    handlePost()
+  }
+
   const handlePost = () => {
     let data = {
       description,
@@ -107,7 +111,6 @@ function Create() {
       myJSON: myJSON,
       userLike: false,
     };
-
     dispatch(postData(data));
     setIsOpen(true);
   };
@@ -148,19 +151,25 @@ function Create() {
                   color="#666666"
                   style={{ cursor: "pointer" }}
                 />
-                <Button
-                  onClick={handlePost}
-                  colorScheme="white"
-                  disabled={progressCount < 100}
-                  bg={count > 500 || count === 0 ? "#b3b2b0" : "#4b4b4b"}
-                  height="fit-content"
-                  size="md"
-                  spacing="10px"
-                  gap="8px"
-                >
-                  {" "}
-                  <BsSend size={30} /> Post
-                </Button>
+                <form action="http://localhost:5080/uploads" method="post" enctype="multipart/form-data">
+                  <input type="file" name="avatars" multiple ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{ display: "none" }} />
+                  <input type="file" name="avatars" multiple ref={fileInputRef1} onChange={handleFileChange} accept="video/*" style={{ display: "none" }} />
+                  {/* <button type="submit" onClick={submitFormToBackend}>Submit</button> */}
+                  <Button
+                    onClick={handlePost}
+                    colorScheme="white"
+                    disabled={progressCount < 100}
+                    bg={count > 500 || count === 0 ? "#b3b2b0" : "#4b4b4b"}
+                    height="fit-content"
+                    size="md"
+                    spacing="10px"
+                    gap="8px"
+                    type="submit"
+                  >
+                    {" "}
+                    <BsSend size={30} /> Post
+                  </Button>
+                </form>
               </HStack>
             </Box>
           </HStack>
@@ -194,7 +203,7 @@ function Create() {
           >
             {file.map((filee, index) => (
               <div key={index} style={{ position: "relative" }}>
-                <img key={index} src={URL.createObjectURL(filee)} alt="preview"  />
+                <img key={index} src={URL.createObjectURL(filee)} alt="preview" />
                 {filee.fileData.type.startsWith("image/") ? (
                   <img src={filee.previewUrl} alt="preview" />
                 ) : (
@@ -287,22 +296,31 @@ function Create() {
           </HStack>
         </div>
         <div>
-          <input
+          {/* <input
             ref={fileInputRef}
             type="file"
             accept="image/*"
             onChange={handleFileChange}
             multiple
             style={{ display: "none" }}
-          />
-          <input
+          /> */}
+          {/* <form action="/uploads" method="post" enctype="multipart/form-data">
+            <input type="file" name="avatars" multiple ref={fileInputRef} onChange={handleFileChange} accept="image/*" />
+            <input type="file" name="avatars" multiple ref={fileInputRef1} onChange={handleFileChange} accept="video/*" />
+            <button type="submit" onClick={submitFormToBackend}>Submit</button>
+          </form> */}
+          {/* <input
             ref={fileInputRef1}
             type="file"
             accept="video/*"
             onChange={handleFileChange}
             multiple
             style={{ display: "none" }}
-          />
+          /> */}
+          {/* <form action="/uploads" method="post" enctype="multipart/form-data">
+            <input type="file" name="avatars" multiple ref={fileInputRef1} onChange={handleFileChange} accept="video/*" />
+            <button type="submit">Submit</button>
+          </form> */}
         </div>
       </div>
 
