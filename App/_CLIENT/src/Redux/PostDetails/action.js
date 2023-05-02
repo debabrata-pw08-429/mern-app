@@ -1,18 +1,9 @@
 import axios from "axios";
 import { GET_POST_DATA } from "./actionType";
 
-// let getData = () => {
-//   return (dispatch) => {
-//     axios.get(`${process.env.REACT_APP_API_KEY}/posts`).then((res) => {
-//       return dispatch(redData(res.data));
-//     });
-//   };
-// };
-
 let getData1 = () => {
   return (dispatch) => {
     axios.get(`${process.env.REACT_APP_API_KEY}/userposts`).then((res) => {
-      // console.log(res.data,"")
       return dispatch(redData(res.data));
     });
   };
@@ -28,7 +19,7 @@ let redData = (data) => {
 let postData = (data) => {
   return (dispatch) => {
     axios
-      .post(`${process.env.REACT_APP_API_KEY}/create/:id`, {
+      .post(`${process.env.REACT_APP_API_KEY}/userposts`, {
         data,
       })
       .then((res) => {
@@ -36,6 +27,20 @@ let postData = (data) => {
       });
   };
 };
+
+// ---------Backend-[/create/id-route]---------------
+
+// let postData = (data) => {
+//   return (dispatch) => {
+//     axios
+//       .post(`${process.env.REACT_APP_API_KEY}/create/:id`, {
+//         data,
+//       })
+//       .then((res) => {
+//         return dispatch(getData1());
+//       });
+//   };
+// };
 
 const putData1 = (send, id1) => {
   console.log(send, id1, "in actionnn");

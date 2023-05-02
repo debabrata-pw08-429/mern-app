@@ -1,5 +1,5 @@
 // Import Modules_
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,38 +51,113 @@ const Login = ({ children }) => {
   };
 
   // STATES MANAGEMENT_
+  const [user, setUser] = useState([]);
+  const [profile, setProfile] = useState([]);
   let navigate = useNavigate();
   let location = useLocation();
   let dispatch = useDispatch();
   let isAuth = useSelector((state) => {
     return state.loginReducer.isAuth;
   });
+
   const [oathVerify, setoathVerify] = React.useState(isAuth);
   const initialRef = React.useRef(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [change, setChange] = React.useState(false);
   const [otpVerify, setotpVerify] = React.useState(false);
 
+  console.log("User => ", user);
+  console.log("Profile =>", profile);
   // Handler Functions_
   const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      try {
-        const user = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
+    onSuccess: (codeResponse) => setUser(codeResponse),
+    onError: (error) => console.log("Login Failed:", error),
+  });
+
+  useEffect(() => {
+    if (user) {
+      axios
+        .get(
+          `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${user.access_token}`,
           {
             headers: {
-              Authorization: `Bearer ${tokenResponse.access_token}`,
+              Authorization: `Bearer ${user.access_token}`,
+              Accept: "application/json",
             },
           }
-        );
-        setoathVerify(true);
-        dispatch(setLogin(user.data));
-        navigate(location.state === null ? "/feed" : location.state);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  });
+        )
+        .then((res) => {
+          setProfile(res.data);
+          dispatch(setLogin(res.data));
+          setoathVerify(true);
+          navigate(location.state === null ? "/feed" : location.state);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user, dispatch, location.state, navigate]);
+
+  // const sentLoginDatatoBackend = async (userData) => {
+  //   const serverURL = "http://localhost:5000/auth/register";
+
+  //   let x = await axios.post(serverURL, {
+  //     name: userData.name,
+  //     email: userData.email,
+  //     profilePicture: userData.picture,
+  //   });
+
+  //   console.log(x);
+
+  //   return x;
+  // };
+
+  // const sentRegisterDatatoBackend = async (userData) => {
+  //   const serverURL = "http://localhost:5000/auth/register";
+
+  //   let x = await axios.post(serverURL, {
+  //     name: userData.name,
+  //     email: userData.email,
+  //     profilePicture: userData.picture,
+  //   });
+
+  //   // if (x) {
+  //   //   sentLoginDatatoBackend(loginObj);
+  //   // }
+  //   console.log(x);
+
+  //   return x;
+  // };
+
+  // const login = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     try {
+  //       const user = await axios.get(
+  //         "https://www.googleapis.com/oauth2/v3/userinfo",
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${tokenResponse.access_token}`,
+  //           },
+  //         }
+  //       );
+
+  //       let check = await sentRegisterDatatoBackend(user.data);
+
+  //       console.log("User data => ", user.data);
+
+  //       if (!check.data) {
+  //         setoathVerify(true);
+  //         dispatch(setLogin(user.data));
+  //         navigate(location.state === null ? "/feed" : location.state);
+  //       } else {
+  //         alert("User Already Exists !");
+  //         setoathVerify(true);
+  //         dispatch(setLogin(user.data));
+  //         navigate(location.state === null ? "/feed" : location.state);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   },
+  // });
 
   // Return Statement_
   return (

@@ -33,6 +33,7 @@ import dropdown from "../Images/dropdown.svg";
 import logout from "../Images/logout.svg";
 import notifications from "../Images/notifications.svg";
 import { log_out, setLogin } from "../Redux/login/action";
+import { googleLogout } from "@react-oauth/google";
 
 // Import Styles_
 import "../Styles/sidebar.css";
@@ -40,6 +41,11 @@ import "../Styles/sidebar.css";
 // Export Component_
 const Lsidebar = () => {
   // STATES MANAGEMENT_
+  // log out function to log the user out of google and set the profile array to null
+  const logOut = () => {
+    googleLogout();
+    // setProfile(null);
+  };
   const { isOpen, onOpen, onClose } = useDisclosure();
   let navigate = useNavigate();
   let dispatch = useDispatch();
@@ -294,7 +300,8 @@ const Lsidebar = () => {
                       color="white"
                       onClick={() => {
                         onClose();
-                        dispatch(setLogin({}));
+                        logOut();
+                        dispatch(setLogin(null));
                         dispatch(log_out(loggedUser_Data));
                         window.location.reload();
                       }}

@@ -7,12 +7,16 @@ const googleAuthRouter = require("./Routes/oauthRoutes");
 const session = require("express-session");
 const adminRouter = require("./Routes/adminRoutes");
 const CONNECT = require("./Configs/connection");
-const userRouter = require("./Routes/userRoutes");
+const authRouter = require("./Routes/authRoutes");
 const postRouter = require("./Routes/postRoutes");
+const cors = require("cors");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 const app = express();
 
 // USE_
 app.use(express.json());
+app.use(cors());
 app.use(
   session({
     secret: "keyboard cat",
@@ -21,13 +25,16 @@ app.use(
     cookie: { secure: false },
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(googleAuthRouter);
 app.use(adminRouter);
-app.use(userRouter);
+app.use(authRouter);
 app.use(postRouter);
+app.post("/api/upload", upload.single("file"), (req, res) => {
+  console.log(req.file);
+  res.send("File uploaded successfully.");
+});
 
 // LOGIC_
 app.get("/", (req, res) => {

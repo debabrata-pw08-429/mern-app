@@ -8,6 +8,9 @@ import {
 import axios from "axios";
 
 const json_URL = `${process.env.REACT_APP_API_KEY}/loggedUser`;
+
+
+
 let initData = { isAuth: false, token: "", isLoading: false, isError: false };
 
 const getInitialState = async () => {

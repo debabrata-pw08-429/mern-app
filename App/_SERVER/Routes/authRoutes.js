@@ -1,20 +1,26 @@
 const express = require("express");
-const userRouter = express.Router();
-const { register, login } = require("../Controllers/auth.controller");
+const authRouter = express.Router();
+const { register, login } = require("../Controllers/authController");
 
 // /auth/register ==> To register a new user.
-userRouter.post("/auth/register", async (req, res) => {
+authRouter.post("/auth/register", async (req, res) => {
   try {
     let body = req.body;
     let data = await register(body);
-    res.send(data);
+    let userexists;
+    if (data === "User Alredy Exists !") {
+      userexists = true;
+    }
+    res.send(userexists);
   } catch (error) {
-    res.status(500).send(error.message);
+    res
+      .status(500)
+      .send({ error: error.message, message: "Registration Error!" });
   }
 });
 
 // /auth/login ==> For logging in generating a token
-userRouter.post("/auth/login", async (req, res) => {
+authRouter.post("/auth/login", async (req, res) => {
   try {
     let token = await login(req.body);
 
@@ -28,4 +34,4 @@ userRouter.post("/auth/login", async (req, res) => {
   }
 });
 
-module.exports = userRouter;
+module.exports = authRouter;

@@ -1,5 +1,6 @@
 // Import Modules_
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BiLeftArrowAlt } from "react-icons/bi";
@@ -68,6 +69,7 @@ function Create() {
     dispatch(getData2());
   }, [dispatch]);
 
+  // TEXT INPUT_ FROM /create
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
     setDescription(event.target.value);
@@ -77,14 +79,18 @@ function Create() {
   const handleFileChange = (event) => {
     const selectedFiles = event.target.files;
     const filesArray = Array.from(selectedFiles);
-    const filesWithPreview = filesArray.map((file) => ({
-      fileData: file,
-      previewUrl: URL.createObjectURL(file),
-      actualFile: file,
-      type: file.type,
-      date: file.lastModifiedDate,
-    }));
 
+    const filesWithPreview = filesArray.map((file) => {
+      return {
+        fileData: file,
+        previewUrl: URL.createObjectURL(file),
+        actualFile: file,
+        type: file.type,
+        date: file.lastModifiedDate,
+      };
+    });
+
+    console.log(filesWithPreview);
     setFile([...file, ...filesWithPreview]);
   };
 
@@ -97,6 +103,28 @@ function Create() {
   const handleButtonClick = (i) => {
     i === 0 ? fileInputRef.current.click() : fileInputRef1.current.click();
   };
+
+  // const sentFileDatatoBackend = (data) => {
+  //   // Create a new FormData object
+  //   const formData = new FormData();
+
+  //   // Append the file to the FormData object
+  //   formData.append("file", data);
+
+  //   // Make a POST request using Axios
+  //   axios
+  //     .post("http://localhost:5000/api/upload", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log("File uploaded successfully.");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error uploading file.", error);
+  //     });
+  // };
 
   const handlePost = () => {
     let data = {
@@ -194,7 +222,11 @@ function Create() {
           >
             {file.map((filee, index) => (
               <div key={index} style={{ position: "relative" }}>
-                <img key={index} src={URL.createObjectURL(filee)} alt="preview"  />
+                <img
+                  key={index}
+                  src={URL.createObjectURL(filee)}
+                  alt="preview"
+                />
                 {filee.fileData.type.startsWith("image/") ? (
                   <img src={filee.previewUrl} alt="preview" />
                 ) : (
@@ -234,7 +266,7 @@ function Create() {
                   <ImImages
                     style={{ cursor: "pointer" }}
                     size={21}
-                    color="#666666"
+                    color="blue"
                   />{" "}
                 </button>{" "}
                 <Spacer /> <Spacer />
@@ -293,7 +325,7 @@ function Create() {
             accept="image/*"
             onChange={handleFileChange}
             multiple
-            style={{ display: "none" }}
+            // style={{ display: "none" }}
           />
           <input
             ref={fileInputRef1}
@@ -301,7 +333,7 @@ function Create() {
             accept="video/*"
             onChange={handleFileChange}
             multiple
-            style={{ display: "none" }}
+            // style={{ display: "none" }}
           />
         </div>
       </div>
