@@ -1,4 +1,4 @@
-const { edit } = require("../Controllers/userController");
+const { edit, imageUpload } = require("../Controllers/userController");
 const userRouter = require("express").Router();
 const multer=require('multer')
 
@@ -30,9 +30,18 @@ userRouter.put("/edit/:id", async (req, res) => {
   }
 });
 
-userRouter.post("/uploads",upload.array('avatars',5),(req,res)=>{
-  console.log(req.files)
-  res.send("Files uploaded")
-})
+userRouter.post('/uploads', upload.array('avatars', 5), async (req, res) => {
+  try {
+    const files = req.files;
+    let data = await imageUpload(files);
+    res.send({
+      data: data
+    });
+  } catch (error) {
+    console.error(error); 
+    res.status(500).json({ error: error, message: 'Post Image Method Error!' });
+  }
+});
+
 
 module.exports = userRouter;

@@ -7,10 +7,9 @@ const postSchema = new mongoose.Schema({
   comments: { type: Number, default: 11 },
   reshare: { type: Number, default: 5 },
   days: { type: String, default: "5 days" },
-  content: {
-    textContent: { type: String },
-    imgContent: { type: String },
-  },
+  images:{type: [Object], default: new Array() },
+  videos:{type: [Object], default: new Array() },
+  textContent: { type: String },
   hashtags: [{ type: String }],
   user: {
     userId: { type: String },
