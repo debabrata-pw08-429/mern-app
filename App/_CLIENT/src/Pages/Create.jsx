@@ -42,10 +42,11 @@ function Create() {
   const dispatch = useDispatch();
   const [count, setCount] = useState(0);
   const [description, setDescription] = useState(0);
-  const [myJSON] = useState();
+  const [myJSON, setmyJSON] = useState();
   const [file, setFile] = useState([]);
   const fileInputRef = useRef(null);
   const fileInputRef1 = useRef(null);
+  const fileInputRef2 = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const [progressCount, setProgressCount] = useState(0);
@@ -76,19 +77,44 @@ function Create() {
     setCount(inputValue.length);
   };
 
+  // Image Upload Process start_
   const handleFileChange = (event) => {
     const selectedFiles = event.target.files;
-    console.log(selectedFiles)
-    // const filesArray = Array.from(selectedFiles);
-    // const filesWithPreview = filesArray.map((file) => ({
-    //   fileData: file,
-    //   previewUrl: URL.createObjectURL(file),
-    //   actualFile: file,
-    //   type: file.type,
-    //   date: file.lastModifiedDate,
-    // }));
-    // setFile([...file, ...filesWithPreview]);
+    const filesArray = Array.from(selectedFiles);
+    const filesWithPreview = filesArray.map((file) => ({
+      fileData: file,
+      previewUrl: URL.createObjectURL(file),
+      actualFile: file,
+      type: file.type,
+      date: file.lastModifiedDate,
+    }));
+
+    const filesEncode = filesArray.map((file) =>
+      encodeFileAsBase64(file).then((encoded) => {
+        // Store the encoded file data in your JSON
+        setmyJSON({
+          fileData: encoded,
+        });
+        const x = {
+          fileData: encoded,
+        };
+        // axios.post('${process.env.REACT_APP_API_KEY}/images',x)
+        //   .then(response => console.log(response))
+        //     .catch(error => console.log(error));
+      })
+    );
+
+    setFile([...file, ...filesWithPreview]);
   };
+  function encodeFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+  }
+  // Image Upload Process end_
 
   const handleClose = (index) => {
     const newFiles = [...file];
@@ -100,19 +126,16 @@ function Create() {
     i === 0 ? fileInputRef.current.click() : fileInputRef1.current.click();
   };
 
-  const submitFormToBackend = () => {
-    handlePost()
-  }
-
   const handlePost = () => {
     let data = {
       description,
       files: [...file],
       likes: 0,
       comments: [],
-      myJSON: myJSON,
+      myJSON: myJSON.fileData,
       userLike: false,
     };
+
     dispatch(postData(data));
     setIsOpen(true);
   };
@@ -153,9 +176,37 @@ function Create() {
                   color="#666666"
                   style={{ cursor: "pointer" }}
                 />
-                <form action="http://localhost:5080/uploads" method="post" enctype="multipart/form-data">
-                  <input type="file" name="avatars" multiple ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{ display: "none" }} />
-                  <input type="file" name="avatars" multiple ref={fileInputRef1} onChange={handleFileChange} accept="video/*" style={{ display: "none" }} />
+                {/* FORM INPUTS_ */}
+                <form
+                  action="http://localhost:5080/uploads"
+                  method="post"
+                  enctype="multipart/form-data"
+                >
+                  <input
+                    type="file"
+                    name="avatars"
+                    multiple
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                  />
+                  <input
+                    type="file"
+                    name="avatars"
+                    multiple
+                    ref={fileInputRef1}
+                    onChange={handleFileChange}
+                    accept="video/*"
+                    style={{ display: "none" }}
+                  />
+                  <input
+                    type="text"
+                    name="avatars"
+                    value={description}
+                    accept="text/*"
+                    style={{ display: "none" }}
+                  />
                   {/* <button type="submit" onClick={submitFormToBackend}>Submit</button> */}
                   <Button
                     onClick={handlePost}
@@ -189,6 +240,7 @@ function Create() {
           </HStack>
         </div>
         <div className={style.d3}>
+          {/* TextArea_ */}
           <textarea
             onChange={handleInputChange}
             placeholder="What's on your mind?"
@@ -205,7 +257,6 @@ function Create() {
           >
             {file.map((filee, index) => (
               <div key={index} style={{ position: "relative" }}>
-                <img key={index} src={URL.createObjectURL(filee)} alt="preview" />
                 {filee.fileData.type.startsWith("image/") ? (
                   <img src={filee.previewUrl} alt="preview" />
                 ) : (

@@ -11,7 +11,8 @@ const authRouter = require("./Routes/authRoutes");
 const postRouter = require("./Routes/postRoutes");
 const cors = require("cors");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const userRouter = require("./Routes/userRoutes");
+// const upload = multer({ dest: "uploads/" });
 const app = express();
 
 // USE_
@@ -31,10 +32,12 @@ app.use(googleAuthRouter);
 app.use(adminRouter);
 app.use(authRouter);
 app.use(postRouter);
-app.post("/api/upload", upload.single("file"), (req, res) => {
-  console.log(req.file);
-  res.send("File uploaded successfully.");
-});
+app.use(userRouter);
+
+// app.post("/uploads", upload.single("file"), (req, res) => {
+//   console.log(req.file);
+//   res.send("File uploaded successfully.");
+// });
 
 // LOGIC_
 app.get("/", (req, res) => {

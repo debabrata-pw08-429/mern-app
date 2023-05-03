@@ -1,9 +1,20 @@
 import axios from "axios";
 import { GET_POST_DATA } from "./actionType";
 
+const userID = "";
+const backendURL = `http://localhost:5080/post/${userID}`;
+
+// let getData1 = () => {
+//   return (dispatch) => {
+//     axios.get(`${process.env.REACT_APP_API_KEY}/userposts`).then((res) => {
+//       return dispatch(redData(res.data));
+//     });
+//   };
+// };
+
 let getData1 = () => {
   return (dispatch) => {
-    axios.get(`${process.env.REACT_APP_API_KEY}/userposts`).then((res) => {
+    axios.get(backendURL).then((res) => {
       return dispatch(redData(res.data));
     });
   };
